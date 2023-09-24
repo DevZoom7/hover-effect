@@ -1,0 +1,95 @@
+@use "./utils.scss";
+
+* {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+   font-family: sans-serif;
+}
+
+html {
+   color-scheme: dark;
+}
+
+$bodyPadding: 16px;
+
+body {
+   background-color: utils.$bg;
+   @include utils.flexCenter($direction: column);
+   gap: 3rem;
+   min-height: 100dvh;
+   padding: $bodyPadding * 2 $bodyPadding;
+}
+
+.cards {
+   $cardWidth: 300px;
+   $gap: 8px;
+   $radius: 12px;
+   $margin: 1px;
+   @include utils.flexCenter($align: null);
+   flex-wrap: wrap;
+   gap: $gap;
+   max-width: $cardWidth * 3 + $gap * 2;
+   width: 100%;
+   &__card {
+      position: relative;
+      width: $cardWidth;
+      @media (max-width: ($cardWidth * 3 + $gap * 2 + $bodyPadding * 2)) {
+         width: calc(50% - $gap / 2);
+      }
+      @media (max-width: 500px) {
+         width: 100%;
+      }
+      aspect-ratio: 1.14;
+      background-color: utils.cardColor($opacity: 0.04);
+      border-radius: $radius;
+      cursor: pointer;
+      &-content {
+         position: absolute;
+         inset: $margin;
+         background-color: #1b1b1b;
+         border-radius: $radius - $margin;
+         z-index: 2;
+      }
+      &::before,
+      &::after {
+         content: "";
+         position: absolute;
+         inset: 0;
+         border-radius: $radius;
+         opacity: 0;
+         transition: opacity 400ms ease;
+      }
+      &::before {
+         @include utils.backgroundImage($opacity: 0.4);
+         z-index: 1;
+      }
+      &::after {
+         @include utils.backgroundImage($opacity: 0.08);
+         z-index: 3;
+         display: var(--after-display);
+      }
+      &:hover::after {
+         opacity: 1;
+      }
+   }
+   &:hover &__card::before {
+      opacity: 1;
+   }
+}
+
+.checkbox-wrapper {
+   @include utils.flexCenter();
+   gap: 1rem;
+   > * {
+      cursor: pointer;
+   }
+   input {
+      $size: 2rem;
+      width: $size;
+      height: $size;
+   }
+   label {
+      font-size: clamp(0.95rem, 6vw, 1.6rem);
+   }
+}

@@ -1,0 +1,22 @@
+$bg: #1f1f1f;
+
+@function cardColor($opacity: 1) {
+   @return rgba(255, 255, 255, $opacity);
+}
+
+@mixin flexCenter($align: center, $justify: center, $direction: null) {
+   display: flex;
+   align-items: $align;
+   justify-content: $justify;
+   @if $direction {
+      flex-direction: $direction;
+   }
+}
+
+@mixin backgroundImage($opacity: 1) {
+   background-image: radial-gradient(
+      circle at var(--mouse-x) var(--mouse-y),
+      cardColor($opacity),
+      transparent 10rem
+   );
+}
